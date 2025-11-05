@@ -4,28 +4,54 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Velkommen til TusindFryd!");
-        Drivhus drivhus = new Drivhus();
+      
+        var drivhus = new Drivhus();
 
-        Produktionsbakke bakke1 = new Produktionsbakke("Bakke-1");
-        drivhus.TilføjBakke(bakke1);
+        var Medarbejder = new Medarbejder("", "");  
+        drivhus.TilføjBakke(new Produktionsbakke("Bakke A"));
+        drivhus.TilføjBakke(new Produktionsbakke("Bakke B"));
 
-        byte[] dummyBillede = new byte[] { 0x01, 0x02, 0x03 }; 
-        Blomst tusindfryd = new Blomst("Tulipan", dummyBillede, produktionstid: 14, halveringstid: 30, størrelse: 10);
-        drivhus.TilføjBlomstersort(tusindfryd);
+        drivhus.TilføjBlomstersort(new Blomst("Tulipan", 40));
+        drivhus.TilføjBlomstersort(new Blomst("Rose", 45));
 
-        Produktion produktion = drivhus.StartProduktion(
-            drivhus: "Drivhus A",
-            produktionsbakke: "Bakke-1",
-            blomstersort: "Tulipan",
-            startAntal: 100,
+
+        Medarbejder.TilføjMedarbejder(new Medarbejder("MJ", "Maja Jensen"));
+        Medarbejder.TilføjMedarbejder(new Medarbejder("AK", "Anders Kristensen"));
+        Medarbejder.TilføjMedarbejder(new Medarbejder("LS", "Lise Sørensen"));
+
+
+        var produktion = drivhus.StartProduktion(
+            produktionsbakkeNavn: "Bakke A",
+            blomstersortNavn: "Tulipan",
+            startAntal: 150,
             startDato: DateTime.Now
         );
 
-        Console.WriteLine($"Blomstersort: {produktion.Blomstersort.Navn}");
-        Console.WriteLine($"Startdato: {produktion.StartDato:d}");
-        Console.WriteLine($"Forventet slutdato: {produktion.ForventetSlutDato:d}");
-        Console.WriteLine($"Antal: {produktion.StartAntal}");
-        Console.WriteLine($"Bakke: {produktion.Produktionsbakke.Id}");
-    }   
+
+        produktion.GennemseAfMedarbejder("MJ"); 
+        produktion.VælgeProduktionsbakke("Bakke A");          
+        produktion.AngivOptællingsinformation(140, DateTime.Now); 
+
+
+        var produktion2 = drivhus.StartProduktion(
+            produktionsbakkeNavn: "Bakke B",
+            blomstersortNavn: "Rose",
+            startAntal: 100,
+            startDato: DateTime.Now.AddDays(-5)
+        );
+
+        produktion2.GennemseAfMedarbejder("AK");              
+        produktion2.VælgeProduktionsbakke("Bakke B");
+        produktion2.AngivOptællingsinformation(98, DateTime.Now);
+
+
+        Console.WriteLine("\n=== PRODUKTIONSOVERSIGT ===");
+        foreach (var p in drivhus.HentProduktioner())
+        {
+            Console.WriteLine($"    {p.Blomstersort.Navn} i {p.Produktionsbakke.Navn}");
+            Console.WriteLine($"    Start: {p.StartAntal} stk.  ({p.StartDato:d})");
+            Console.WriteLine($"    Forventet slut: {p.ForventetSlutDato:d}");
+        }
+
+    }
 }

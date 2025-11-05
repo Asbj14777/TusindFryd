@@ -1,17 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TusindFryd
 {
     public class Produktionsbakke
     {
-        public string Id { get; private set; }
-        public List<Produktion> Produktionen { get; private set; } = new();
+        public string Navn { get; set; }
+        public List<Optælling> Optællinger { get; } = new();
+        public List<Produktion> Produktioner { get; } = new();
+        public Produktionsbakke(string navn)
+        {
+            Navn = navn ?? throw new ArgumentNullException(nameof(navn));
+        }
 
-        public Produktionsbakke(string id) => Id = id ?? throw new ArgumentNullException(nameof(id));
-        
+        public void TilføjOptælling(Optælling optælling)
+        {
+            if (optælling == null)
+                throw new ArgumentNullException(nameof(optælling));
+            Optællinger.Add(optælling);
+        }
+        public void TilføjProduktion(Produktion produktion)
+        {
+            if (produktion == null)
+                throw new ArgumentNullException(nameof(produktion));
+            Produktioner.Add(produktion);
+        }
+        public override string ToString() => Navn;
     }
 }

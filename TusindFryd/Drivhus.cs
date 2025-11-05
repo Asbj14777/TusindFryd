@@ -1,36 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TusindFryd
 {
     public class Drivhus
     {
-        private List<Produktionsbakke> _bakker = new();
-        private List<Blomst> _blomster = new();
-        private List<Produktion> _produktioner = new();
+        private readonly List<Produktionsbakke> _bakker = new();
+        private readonly List<Blomst> _blomster = new();
+        private readonly List<Produktion> _produktioner = new();
 
-        public void TilføjBakke(Produktionsbakke bakke) => _bakker.Add(bakke);
-        public void TilføjBlomstersort(Blomst blomst) => _blomster.Add(blomst);
-
-        public Produktion StartProduktion(string drivhus, string produktionsbakke,
-                                          string blomstersort, int startAntal, DateTime startDato)
+        public void TilføjBakke(Produktionsbakke bakke)
         {
-            var bakke = _bakker.Find(b => b.Id == produktionsbakke)
-                ?? throw new ArgumentException("Produktionsbakke findes ikke.", nameof(produktionsbakke));
+            if (bakke == null)
+                throw new ArgumentNullException(nameof(bakke));
 
-            var blomst = _blomster.Find(b => b.Navn == blomstersort)
-                ?? throw new ArgumentException("Blomstersort findes ikke.", nameof(blomstersort));
-    
+            _bakker.Add(bakke);
+        }
+
+        public void TilføjBlomstersort(Blomst blomst)
+        {
+            if (blomst == null)
+                throw new ArgumentNullException(nameof(blomst));
+
+            _blomster.Add(blomst);
+        }
+        public Produktion StartProduktion(string produktionsbakkeNavn, string blomstersortNavn,
+                                          int startAntal, DateTime startDato)
+        {
+
+            var bakke = _bakker.Find(b => b.Navn.Equals(produktionsbakkeNavn, StringComparison.OrdinalIgnoreCase))
+                ?? throw new ArgumentException("Produktionsbakke findes ikke.", nameof(produktionsbakkeNavn));
+
+
+            var blomst = _blomster.Find(b => b.Navn.Equals(blomstersortNavn, StringComparison.OrdinalIgnoreCase))
+                ?? throw new ArgumentException("Blomstersort findes ikke.", nameof(blomstersortNavn));
+
+
             var produktion = new Produktion(blomst, bakke, startAntal, startDato);
 
-            bakke.Produktionen.Add(produktion);
+            bakke.TilføjProduktion(produktion);
             _produktioner.Add(produktion);
+
+            Console.WriteLine($"Ny produktion startet: {blomst.Navn} i {bakke.Navn} ({startAntal} stk.)");
 
             return produktion;
         }
+
+        public IReadOnlyList<Produktion> HentProduktioner() => _produktioner.AsReadOnly();
     }
 }
-
