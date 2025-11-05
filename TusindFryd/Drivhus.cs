@@ -24,8 +24,7 @@ namespace TusindFryd
 
             _blomster.Add(blomst);
         }
-        public Produktion StartProduktion(string produktionsbakkeNavn, string blomstersortNavn,
-                                          int startAntal, DateTime startDato)
+        public Produktion StartProduktion(string produktionsbakkeNavn, string blomstersortNavn, int startAntal, DateTime startDato)
         {
 
             var bakke = _bakker.Find(b => b.Navn.Equals(produktionsbakkeNavn, StringComparison.OrdinalIgnoreCase))

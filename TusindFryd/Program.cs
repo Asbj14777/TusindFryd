@@ -48,10 +48,10 @@ class Program
         Console.WriteLine("\n=== PRODUKTIONSOVERSIGT ===");
         foreach (var p in drivhus.HentProduktioner())
         {
-            Console.WriteLine($"    {p.Blomstersort.Navn} i {p.Produktionsbakke.Navn}");
-            Console.WriteLine($"    Start: {p.StartAntal} stk.  ({p.StartDato:d})");
-            Console.WriteLine($"    Forventet slut: {p.ForventetSlutDato:d}");
+            Console.WriteLine($"{p.Blomstersort.Navn} i {p.Produktionsbakke.Navn}");
+            Console.WriteLine($"Start: {p.StartAntal} stk.  ({p.StartDato:d})");
+            Console.WriteLine($"Forventet slut: {p.ForventetSlutDato:d}");
         }
-
+  
     }
 }
