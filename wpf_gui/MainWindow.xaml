@@ -6,7 +6,20 @@
         xmlns:local="clr-namespace:wpf_gui"
         mc:Ignorable="d"
         Title="TusindFryd" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <StackPanel Margin="10">
+        <Label Target="{Binding ElementName=txtName}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="http://cdn1.iconfinder.com/data/icons/fatcow/16/bullet_green.png" />
+                <AccessText Text="_Name:" />
+            </StackPanel>
+        </Label>
+        <TextBox Name="txtName" />
+        <Label Target="{Binding ElementName=txtMail}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="http://cdn1.iconfinder.com/data/icons/fatcow/16/bullet_blue.png" />
+                <AccessText Text="_Mail:" />
+            </StackPanel>
+        </Label>
+        <TextBox Name="txtMail" />
+    </StackPanel>
 </Window>
